@@ -1,0 +1,24 @@
+{
+  "name": "game-jam-2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "gulp browser-sync"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smdooley/game-jam-2019.git"
+  },
+  "author": "Sean Dooley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smdooley/game-jam-2019/issues"
+  },
+  "homepage": "https://github.com/smdooley/game-jam-2019#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2"
+  }
+}
