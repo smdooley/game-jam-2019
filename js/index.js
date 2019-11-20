@@ -10,7 +10,7 @@ window.onload = function() {
             arcade: {
                 debug: false,
                 gravity: {
-                    y: 300
+                    y: 200
                 }
             }
         },
@@ -33,34 +33,35 @@ class Game extends Phaser.Scene{
 
         this.load.image('ground', 'assets/images/tiles/platformPack_tile001.png');
         this.load.image('board', 'assets/images/tiles/platformPack_tile066.png');
-        this.load.image('boardwalk', 'assets/images/tiles/platformPack_tile038.png');
     }
 
     create ()
     {
+        // Create platform
         app.platforms = this.physics.add.staticGroup();
+
         app.platforms.create(32 * 1, app.config.height - 32, 'ground');
         app.platforms.create(32 * 3, app.config.height - 32, 'ground');
+        app.platforms.create(32 * 5, app.config.height - 32, 'ground');
 
-        app.boardwalks = this.physics.add.staticGroup();
-        app.boardwalks.create(32 * 5.5, app.config.height - 32, 'boardwalk');
-        app.boardwalks.create(32 * 7.5, app.config.height - 32, 'boardwalk');
+        // Create board
+        app.boards = this.physics.add.group({
+            angularDrag: 5,
+            angularVelocity: 0,
+            bounceX: 0,
+            bounceY: 0,
+            collideWorldBounds: true,
+            dragX: 60,
+            dragY: 60
+        });
 
-        app.board = this.physics.add.sprite(0, 100, 'board');
-        app.board.setOrigin(0.5);
-        app.board.setCollideWorldBounds(true);
-        app.board.body.setGravityY(300);
-
-        // app.player = this.physics.add.sprite(64, 50, 'player');
-        // app.player.setCollideWorldBounds(true);
-        // app.player.body.setGravityY(300);
-
-        // this.physics.add.collider(app.player, app.board);
-        // this.physics.add.collider(app.player, app.platforms);
+        app.board = app.boards.create(0, 100, 'board');
+        
+        // Add collision
         this.physics.add.collider(app.board, app.platforms);
-        this.physics.add.collider(app.board, app.boardwalks);
-
-        this.input.on('pointerdown', this.launch, this);
+        
+        // Attach listeners
+        this.input.on('pointerup', this.launch, this);
     }
 
     update ()
@@ -68,6 +69,8 @@ class Game extends Phaser.Scene{
     }
 
     launch() {
-        app.board.body.setVelocity(250,0);
+        var pointer = this.input.activePointer;
+
+        app.board.body.setVelocity(pointer.getDuration(), 0);
     }
 }
